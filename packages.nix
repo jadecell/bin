@@ -16,9 +16,9 @@
           zstd
         ];
 
-      };
         musicimport = [ ];
         wallsort = [ ];
+      };
     in
     {
       packages = lib.attrsets.mapAttrs (
