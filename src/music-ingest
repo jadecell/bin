@@ -1,3 +1,4 @@
+#!/bin/sh
 # Define directories
 downloads=/home/jackson/Downloads
 newly_added=/home/jackson/Music/playlists/Newly_Added
