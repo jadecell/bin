@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Usage: ./move_wallpaper.sh /path/to/image.jpg
+
+input="$1"
+dest_dir=~/wallpapers
+
+# Ensure destination directory exists
+mkdir -p "$dest_dir"
+
+# Get extension (lowercase, without dot)
+ext="${input##*.}"
+ext="${ext,,}"
+
+# Find the highest sequence number in the destination directory
+last_num=$(find "$dest_dir" -maxdepth 1 -type f -name '[0-9][0-9][0-9].*' \
+  | sed -n 's|.*/\([0-9][0-9][0-9]\)\..*|\1|p' \
+  | sort -n | tail -n 1)
+
+if [[ -z "$last_num" ]]; then
+  next_num="001"
+else
+  next_num=$(printf "%03d" $((10#$last_num + 1)))
+fi
+
+dest_file="$dest_dir/${next_num}.${ext}"
+
+# Move the file
+mv "$input" "$dest_file"
+
+echo "Moved to $dest_file"

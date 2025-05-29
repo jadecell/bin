@@ -1,0 +1,36 @@
+# Define directories
+downloads=/home/jackson/Downloads
+newly_added=/home/jackson/Music/playlists/Newly_Added
+favourites=/home/jackson/Music/playlists/Favourites
+main=/home/jackson/Music/playlists/Main
+
+cd "$newly_added" || exit 1
+
+# Step 1: Use fzf to select files from Newly_added
+mp3s=( *.mp3 )
+[ -e "${mp3s[0]}" ] || exit 0  # Exit if no mp3s
+
+# Let user select files (multi-select) with fzf
+selected=$(ls *.mp3 2>/dev/null | fzf -m --no-sort)  # --no-sort preserves order[2][7]
+
+# Step 2: Move selected files to Favourites
+if [ -n "$selected" ]; then
+  # Move selected to Favourites
+  while IFS= read -r file; do
+    [ -e "$file" ] && mv "$file" "$favourites/"
+  done <<< "$selected"
+fi
+
+# Move remaining mp3s to Main
+for file in *.mp3; do
+  [ -e "$file" ] && mv "$file" "$main/"
+done
+
+# Step 3: If Newly_added is empty, ingest new mp3s from Downloads
+if [ -z "$(ls -A "$newly_added")" ]; then
+  for file in "$downloads"/*.mp3; do
+    [ -e "$file" ] || continue
+    new_name=$(basename "$file" | tr ' ' '_')
+    mv "$file" "$newly_added/$new_name"
+  done
+fi
