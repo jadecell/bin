@@ -18,6 +18,7 @@
 
         musicimport = [ ];
         wallsort = [ ];
+        update-system = [ ];
       };
     in
     {
