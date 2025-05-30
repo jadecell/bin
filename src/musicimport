@@ -12,7 +12,7 @@ mp3s=( *.mp3 )
 [ -e "${mp3s[0]}" ] || exit 0  # Exit if no mp3s
 
 # Let user select files (multi-select) with fzf
-selected=$(ls *.mp3 2>/dev/null | fzf -m --no-sort)  # --no-sort preserves order[2][7]
+selected=$(find . -type f -name '*.mp3' -print0 | fzf --read0 -m --no-sort)
 
 # Step 2: Move selected files to Favourites
 if [ -n "$selected" ]; then
