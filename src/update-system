@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Main system flake directory
+SYSTEM_FLAKE="$HOME/mysystem"
+
+# Array containing paths to flake directories
+declare -a FLAKE_DIRS=(
+  "$HOME/repos/bin"
+  "$SYSTEM_FLAKE"
+)
+
+
+# Loop through each flake directory
+for dir in "${FLAKE_DIRS[@]}"; do
+  if [ -n "$dir" ] && [ -d "$dir" ]; then
+    echo "Updating flake in $dir"
+    (cd "$dir" && nix flake update)
+  fi
+done
+
+# Rebuild the system
+echo "Rebuilding system from $SYSTEM_FLAKE"
+(cd "$SYSTEM_FLAKE" && sudo nixos-rebuild switch --flake .)
