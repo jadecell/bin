@@ -13,14 +13,14 @@ ext="${input##*.}"
 ext="${ext,,}"
 
 # Find the highest sequence number in the destination directory
-last_num=$(find "$dest_dir" -maxdepth 1 -type f -name '[0-9][0-9][0-9].*' \
-  | sed -n 's|.*/\([0-9][0-9][0-9]\)\..*|\1|p' \
-  | sort -n | tail -n 1)
+last_num=$(find "$dest_dir" -maxdepth 1 -type f -name '[0-9][0-9][0-9].*' |
+    sed -n 's|.*/\([0-9][0-9][0-9]\)\..*|\1|p' |
+    sort -n | tail -n 1)
 
 if [[ -z "$last_num" ]]; then
-  next_num="001"
+    next_num="001"
 else
-  next_num=$(printf "%03d" $((10#$last_num + 1)))
+    next_num=$(printf "%03d" $((10#$last_num + 1)))
 fi
 
 dest_file="$dest_dir/${next_num}.${ext}"
