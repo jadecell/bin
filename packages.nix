@@ -23,9 +23,6 @@
       ];
       wallsort = [];
       update-system = [];
-      weather-forecast = with pkgs; [
-        curl
-      ];
     };
   in {
     packages =
