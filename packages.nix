@@ -23,7 +23,7 @@
       ];
       wallsort = [];
       update-system = [];
-      weather = with pkgs; [
+      weather-forecast = with pkgs; [
         curl
       ];
     };
