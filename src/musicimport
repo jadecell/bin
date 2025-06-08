@@ -8,30 +8,30 @@ main=/home/jackson/Music/playlists/Main
 cd "$newly_added" || exit 1
 
 # Step 1: Use fzf to select files from Newly_added
-mp3s=( *.mp3 )
-[ -e "${mp3s[0]}" ] || exit 0  # Exit if no mp3s
+mp3s=(*.mp3)
+[ -e "${mp3s[0]}" ] || exit 0 # Exit if no mp3s
 
 # Let user select files (multi-select) with fzf
-selected=$(find . -type f -name '*.mp3' -print0 | fzf --read0 -m --no-sort)
+selected=$(find . -maxdepth 1 -type f -name '*.mp3' -printf '%P\n' | fzf -m --no-sort)
 
 # Step 2: Move selected files to Favourites
 if [ -n "$selected" ]; then
-  # Move selected to Favourites
-  while IFS= read -r file; do
-    [ -e "$file" ] && mv "$file" "$favourites/"
-  done <<< "$selected"
+    # Move selected to Favourites
+    while IFS= read -r file; do
+        [ -e "$file" ] && mv "$file" "$favourites/"
+    done <<<"$selected"
 fi
 
 # Move remaining mp3s to Main
 for file in *.mp3; do
-  [ -e "$file" ] && mv "$file" "$main/"
+    [ -e "$file" ] && mv "$file" "$main/"
 done
 
 # Step 3: If Newly_added is empty, ingest new mp3s from Downloads
 if [ -z "$(ls -A "$newly_added")" ]; then
-  for file in "$downloads"/*.mp3; do
-    [ -e "$file" ] || continue
-    new_name=$(basename "$file" | tr ' ' '_')
-    mv "$file" "$newly_added/$new_name"
-  done
+    for file in "$downloads"/*.mp3; do
+        [ -e "$file" ] || continue
+        new_name=$(basename "$file" | tr ' ' '_')
+        mv "$file" "$newly_added/$new_name"
+    done
 fi
