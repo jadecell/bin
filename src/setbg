@@ -6,7 +6,7 @@ WALLPAPER_DIRECTORY="$HOME/wallpapers"
 #SELECTED_WALLPAPER=$(ls "$WALLPAPER_DIRECTORY/*" | fzf --preview='kitty icat --clear --transfer-mode=memory --stdin=no --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" {}' --tac)
 
 SELECTED_WALLPAPER=$(find "$WALLPAPER_DIRECTORY" -type f |
-    fzf --preview='kitty icat --clear --transfer-mode=memory --stdin=no --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" {}' --tac)
+    fzf --preview='kitty icat --clear --transfer-mode=memory --stdin=no {}' --tac)
 rm "$HOME/.config/wallpaper"
 ln -s "$SELECTED_WALLPAPER" "$HOME/.config/wallpaper"
 
