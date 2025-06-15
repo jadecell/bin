@@ -22,6 +22,7 @@
         fzf
       ];
       wallsort = [];
+      setbg = [];
       update-system = [];
     };
   in {
