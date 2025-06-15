@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 
-[ "$1" = "restore" ] && swaybg -i $HOME/.config/wallpaper
+[ "$1" = "restore" ] && swaybg -i "$HOME/.config/wallpaper"
 
 WALLPAPER_DIRECTORY="$HOME/wallpapers"
 SELECTED_WALLPAPER=$(ls $WALLPAPER_DIRECTORY/* | fzf --preview='kitty icat --clear --transfer-mode=memory --stdin=no --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" {}' --tac)
 
-rm $HOME/.config/wallpaper
-ln -s $SELECTED_WALLPAPER $HOME/.config/wallpaper
+rm "$HOME/.config/wallpaper"
+ln -s "$SELECTED_WALLPAPER" "$HOME/.config/wallpaper"
 
 pkill -f swaybg
-swaybg -i $HOME/.config/wallpaper &
+swaybg -i "$HOME/.config/wallpaper" &
 # ls ~/wallpapers/* | fzf --preview='kitty icat --clear --transfer-mode=memory --stdin=no --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" {}' --tac | xargs -r swaybg -i
